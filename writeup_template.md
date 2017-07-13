@@ -12,22 +12,16 @@ The goals / steps of this project are the following:
 * Make a pipeline that finds lane lines on the road
 * Reflect on your work in a written report
 
-
-[//]: # (Image References)
-
-[image1]: ./examples/grayscale.jpg "Grayscale"
-
----
-
 ### Reflection
 
 ### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+I implemented my pipeline per the following design:
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+1. Use Canny edge detector to identify the edges on the given image
+2. Assuming the field of view to be from a camera installed on the front of a vehicle, define a triangular region of interest on the front to identify lanes
+3. Use Hough transform to identify straight lines (lanes)
+4. For lanes which are not solid lines, use line-fitting techniques to identify lanes as solid lines
 
 ![alt text][image1]
 
@@ -35,13 +29,15 @@ If you'd like to include images to show how the pipeline works, here is how to i
 ### 2. Identify potential shortcomings with your current pipeline
 
 
-One potential shortcoming would be what would happen when ... 
+1. If lanes are not lines and instead reflective markers, this approach will fail
+2. If camera is not installed on the front, this approach will fail
+3. Related to the point above, if the lanes are not in the bottom triangular region, this approach will fail
+4. Hough transform parameters are tuned per the given example image set. This is a tunable set of parameters and not universal
+5. If the lanes are curved, this approach might not work.
 
-Another shortcoming could be ...
 
 
 ### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+1. This approach can be enhanced to identify curved roads, elevated highways etc.
+2. The jitter from frame to frame can be reduced by averaging with the line fit from the previous frame
